@@ -234,37 +234,24 @@ def is_move_valid(player, init_pos, new_pos):
                 return False
             else:
                 if ord(new_pos[0]) - ord(init_pos[0]) > 0 and int(new_pos[1]) - int(init_pos[1]) > 0:
-                    while init_pos != new_pos:
-                        init_pos = rows[rows.index(init_pos[0]) + 1] + str(int(init_pos[1]) + 1)
-                        if init_pos in moves1:
-                            return False
-                        elif init_pos in moves2 and init_pos != new_pos:
-                            return False
-                    return True
+                    i = 1
+                    j = 1
                 elif ord(new_pos[0]) - ord(init_pos[0]) > 0 > int(new_pos[1]) - int(init_pos[1]):
-                    while init_pos != new_pos:
-                        init_pos = rows[rows.index(init_pos[0]) + 1] + str(int(init_pos[1]) - 1)
-                        if init_pos in moves1:
-                            return False
-                        elif init_pos in moves2 and init_pos != new_pos:
-                            return False
-                    return True
+                    i = 1
+                    j = -1
                 elif ord(new_pos[0]) - ord(init_pos[0]) < 0 and int(new_pos[1]) - int(init_pos[1]) < 0:
-                    while init_pos != new_pos:
-                        init_pos = rows[rows.index(init_pos[0]) - 1] + str(int(init_pos[1]) - 1)
-                        if init_pos in moves1:
-                            return False
-                        elif init_pos in moves2 and init_pos != new_pos:
-                            return False
-                    return True
+                    i = -1
+                    j = -1
                 elif ord(new_pos[0]) - ord(init_pos[0]) < 0 < int(new_pos[1]) - int(init_pos[1]):
-                    while init_pos != new_pos:
-                        init_pos = rows[rows.index(init_pos[0]) - 1] + str(int(init_pos[1]) + 1)
-                        if init_pos in moves1:
-                            return False
-                        elif init_pos in moves2 and init_pos != new_pos:
-                            return False
-                    return True
+                    i = -1
+                    j = 1
+                while init_pos != new_pos:
+                    init_pos = rows[rows.index(init_pos[0]) + i] + str(int(init_pos[1]) + j)
+                    if init_pos in moves1:
+                        return False
+                    elif init_pos in moves2 and init_pos != new_pos:
+                        return False
+                return True
 
 
 whiteDict = {"a2": "p1", "b2": "p2", "c2": "p3", "d2": "p4", "e2": "p5", "f2": "p6", "g2": "p7", "h2": "p8", "a1": "r1",
