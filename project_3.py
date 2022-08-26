@@ -96,10 +96,10 @@ def startGame():
         if oldPos in combDict[player]:  # check if there's a player's piece on that position (letter + digit)
             while True:
                 newPos = input("Please type the new position of the piece: ")  # input new position (letter + digit)
-                if is_move_valid(player + 1, oldPos, newPos):  # check if such move is valid
+                if len(newPos) == 2 and is_move_valid(player + 1, oldPos, newPos):  # check if such move is valid
                     if newPos in combDict[1 - player]:  # if player kills opponent's piece,
                         combDict[1 - player].pop(newPos) # delete that piece for opponent
-                    combDict[player][newPos] = combDict[player].pop(oldPos) # place piece on new position
+                    combDict[player][newPos] = combDict[player].pop(oldPos)  # place piece on new position
                     break
                 else:
                     print("Move is invalid...")
@@ -126,25 +126,30 @@ def is_move_valid(player, init_pos, new_pos):
     if new_pos == "" or new_pos[0] not in rows or int(new_pos[1]) not in cols or init_pos == new_pos:
         return False
     piece = moves1[init_pos]  # get piece's
-    possible_moves = []
+    possible_moves = []  # for some pieces all possible moves are stored here
     if piece[0] == "p":
+        # if 1 step forward
         if init_pos[0] + str(int(init_pos[1]) + 1 * multiplier) not in moves2.keys() and \
                 init_pos[0] + str(int(init_pos[1]) + 1 * multiplier) not in moves1.keys():
             possible_moves.append(init_pos[0] + str(int(init_pos[1]) + 1 * multiplier))
+        # if 2 steps forward
         if init_pos[0] + str(int(init_pos[1]) + 2 * multiplier) not in moves2.keys() and \
                 init_pos[0] + str(int(init_pos[1]) + 2 * multiplier) not in moves1.keys():
+            # check if there's any piece on the way
             if init_pos[0] + str(int(init_pos[1]) + 1 * multiplier) not in moves2.keys() and \
                     init_pos[0] + str(int(init_pos[1]) + 1 * multiplier) not in moves1.keys():
                 possible_moves.append(init_pos[0] + str(int(init_pos[1]) + 2 * multiplier))
+        # if killing to the right
         if -1 < rows.index(init_pos[0]) + 1 * multiplier < 8 and rows[rows.index(init_pos[0]) + 1 * multiplier] \
                 + str(int(init_pos[1]) + 1 * multiplier) in moves2.keys():
             possible_moves.append(rows[rows.index(init_pos[0]) + 1 * multiplier]
                                   + str(int(init_pos[1]) + 1 * multiplier))
+        # if killing to the left
         if -1 < rows.index(init_pos[0]) - 1 * multiplier < 8 and rows[rows.index(init_pos[0]) - 1 * multiplier] \
                 + str(int(init_pos[1]) + 1 * multiplier) in moves2.keys():
             possible_moves.append(rows[rows.index(init_pos[0]) - 1 * multiplier]
                                   + str(int(init_pos[1]) + 1 * multiplier))
-        if new_pos in possible_moves:
+        if new_pos in possible_moves:  # if new position corresponds to any possible position - it's valid
             return True
     elif piece[0] == "r":
         if init_pos[0] != new_pos[0] and init_pos[1] != new_pos[1]:
