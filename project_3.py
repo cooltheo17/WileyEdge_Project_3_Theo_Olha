@@ -86,19 +86,20 @@ def chooseColour(player):  # player can choose the figures color
 
 
 def startGame():
-    player = 0
-    combDict = [whiteDict, blackDict]
+    player = 0  # player val to swap turns
+    combDict = [whiteDict, blackDict] # player1 and player2 pieces
     while True:
         print(f"Player {player + 1} makes a move...")
-        printBoard(combDict[0], combDict[1], player + 1)
+        printBoard(combDict[0], combDict[1], player + 1)  # printing board
+        # old position to get player's piece there
         oldPos = input("\033[0;0mPlease type the position of the piece you want to move: ")
-        if oldPos in combDict[player]:
+        if oldPos in combDict[player]:  # check if there's a player's piece on that position (letter + digit)
             while True:
-                newPos = input("Please type the new position of the piece: ")
-                if is_move_valid(player + 1, oldPos, newPos):
-                    if newPos in combDict[1 - player]:
-                        combDict[1 - player].pop(newPos)
-                    combDict[player][newPos] = combDict[player].pop(oldPos)
+                newPos = input("Please type the new position of the piece: ")  # input new position (letter + digit)
+                if is_move_valid(player + 1, oldPos, newPos):  # check if such move is valid
+                    if newPos in combDict[1 - player]:  # if player kills opponent's piece,
+                        combDict[1 - player].pop(newPos) # delete that piece for opponent
+                    combDict[player][newPos] = combDict[player].pop(oldPos) # place piece on new position
                     break
                 else:
                     print("Move is invalid...")
@@ -109,19 +110,20 @@ def startGame():
 
 
 def is_move_valid(player, init_pos, new_pos):
-    rows = ["a", "b", "c", "d", "e", "f", "g", "h"]
-    cols = [1, 2, 3, 4, 5, 6, 7, 8]
-    if player == 1:
-        multiplier = 1
-        moves1 = whiteDict
-        moves2 = blackDict
-    else:
+    rows = ["a", "b", "c", "d", "e", "f", "g", "h"]  # all board rows namings
+    cols = [1, 2, 3, 4, 5, 6, 7, 8]  # all board columns namings
+    if player == 1:  # if it's player's 1 turn -
+        multiplier = 1  # multiplier is 1 according to player's 1 board view
+        moves1 = whiteDict  # copy of current player pieces
+        moves2 = blackDict  # copy of opponent player pieces
+    else:  # if it's player 2 - via versa
         multiplier = -1
         moves1 = blackDict
         moves2 = whiteDict
+    # check if new pos is out of bounds
     if new_pos == "" or new_pos[0] not in rows or int(new_pos[1]) not in cols or init_pos == new_pos:
         return False
-    piece = moves1[init_pos]
+    piece = moves1[init_pos]  # get piece's  
     possible_moves = []
     if piece[0] == "p":
         if init_pos[0] + str(int(init_pos[1]) + 1 * multiplier) not in moves2.keys() and \
