@@ -193,6 +193,7 @@ def is_move_valid(player, init_pos, new_pos):
                         killed = 1
                     else:
                         return False
+        return True
     elif piece[0] == "k":
         # change pos by 2 right
         letter1 = rows.index(init_pos[0]) + 2 * multiplier
