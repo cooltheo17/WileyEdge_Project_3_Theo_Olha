@@ -110,7 +110,7 @@ def startGame():
                 print("\n================================\n")
                 if "K" not in list(combDict[1 - player].values()):
                     return player + 1
-                player = 1 - player
+            player = 1 - player
         else:
             print("Invalid piece position!\nTry again.")
 
