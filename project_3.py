@@ -15,7 +15,7 @@ def printBoard(whiteMoves, blackMoves, player):
             print("\033[0;0m---", end="")  # print frame horizontally
         for i in rows:  # printing rows
             if j == -1:
-                print(" " + i + " ", end="")  # printing board numeric values
+                print(" " + i, end="")  # printing board numeric values
             elif j == 0:
                 print("---", end="")
             elif i + str(j) in whiteMoves:  # printing all player's 1 pieces
