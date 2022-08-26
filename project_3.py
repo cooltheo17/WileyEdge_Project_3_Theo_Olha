@@ -95,10 +95,14 @@ def startGame():
         oldPos = input("\033[0;0mPlease type the position of the piece you want to move: ")
         if oldPos in combDict[player]:  # check if there's a player's piece on that position (letter + digit)
             while True:
-                newPos = input("Please type the new position of the piece: ")  # input new position (letter + digit)
+                print("Type - back - to cancel.")
+                newPos = input("Please type the new position of the piece: ") # input new position (letter + digit)
+                if newPos == "back":
+                    player = 1 - player
+                    break
                 if len(newPos) == 2 and is_move_valid(player + 1, oldPos, newPos):  # check if such move is valid
                     if newPos in combDict[1 - player]:  # if player kills opponent's piece,
-                        combDict[1 - player].pop(newPos) # delete that piece for opponent
+                        combDict[1 - player].pop(newPos)  # delete that piece for opponent
                     combDict[player][newPos] = combDict[player].pop(oldPos)  # place piece on new position
                     break
                 else:
