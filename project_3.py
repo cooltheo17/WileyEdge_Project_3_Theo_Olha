@@ -180,25 +180,38 @@ def is_move_valid(player, init_pos, new_pos):
                     else:
                         return False
     elif piece[0] == "k":
+        # change pos by 2 right
         letter1 = rows.index(init_pos[0]) + 2 * multiplier
+        # change pos by 2 left
         letter1_1 = rows.index(init_pos[0]) - 2 * multiplier
+        # change pos by 1 right
         letter2 = rows.index(init_pos[0]) + 1 * multiplier
+        # change pos by 1 left
         letter2_1 = rows.index(init_pos[0]) - 1 * multiplier
+        # change pos by 1 up
         num1 = int(init_pos[1]) + 1 * multiplier
+        # change pos by 1 down
         num1_1 = int(init_pos[1]) - 1 * multiplier
+        # change pos by 2 up
         num2 = int(init_pos[1]) + 2 * multiplier
+        # change pos by 2 down
         num2_1 = int(init_pos[1]) - 2 * multiplier
         if 0 <= letter1 < 8 and rows[letter1] + str(num1) not in moves1:
             possible_moves.append(rows[letter1] + str(num1))
+        if 0 <= letter1 < 8 and rows[letter1] + str(num1_1) not in moves1:
+            possible_moves.append(rows[letter1] + str(num1_1))
         if 0 <= letter1_1 < 8 and rows[letter1_1] + str(num1) not in moves1:
             possible_moves.append(rows[letter1_1] + str(num1))
+        if 0 <= letter1_1 < 8 and rows[letter1_1] + str(num1_1) not in moves1:
+            possible_moves.append(rows[letter1_1] + str(num1_1))
         if 0 <= letter2 < 8 and rows[letter2] + str(num2) not in moves1:
             possible_moves.append(rows[letter2] + str(num2))
+        if 0 <= letter2 < 8 and rows[letter2] + str(num2_1) not in moves1:
+            possible_moves.append(rows[letter2] + str(num2_1))
         if 0 <= letter2_1 < 8 and rows[letter2_1] + str(num2) not in moves1:
             possible_moves.append(rows[letter2_1] + str(num2))
-        print(0 < letter2_1 < 8)
-        print(rows[letter2_1] + str(num2))
-        print(possible_moves)
+        if 0 <= letter2_1 < 8 and rows[letter2_1] + str(num2_1) not in moves1:
+            possible_moves.append(rows[letter2_1] + str(num2_1))
         if new_pos in possible_moves:
             return True
     elif piece[0] == "K":
