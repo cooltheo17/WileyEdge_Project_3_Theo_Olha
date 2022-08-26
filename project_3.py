@@ -129,12 +129,14 @@ def is_move_valid(player, init_pos, new_pos):
             possible_moves.append(init_pos[0] + str(int(init_pos[1]) + 1 * multiplier))
         if init_pos[0] + str(int(init_pos[1]) + 2 * multiplier) not in moves2.keys() and \
                 init_pos[0] + str(int(init_pos[1]) + 2 * multiplier) not in moves1.keys():
-            possible_moves.append(init_pos[0] + str(int(init_pos[1]) + 2 * multiplier))
-        if rows[rows.index(init_pos[0]) + 1 * multiplier] \
+            if init_pos[0] + str(int(init_pos[1]) + 1 * multiplier) not in moves2.keys() and \
+                    init_pos[0] + str(int(init_pos[1]) + 1 * multiplier) not in moves1.keys():
+                possible_moves.append(init_pos[0] + str(int(init_pos[1]) + 2 * multiplier))
+        if -1 < rows.index(init_pos[0]) + 1 * multiplier < 8 and rows[rows.index(init_pos[0]) + 1 * multiplier] \
                 + str(int(init_pos[1]) + 1 * multiplier) in moves2.keys():
             possible_moves.append(rows[rows.index(init_pos[0]) + 1 * multiplier]
                                   + str(int(init_pos[1]) + 1 * multiplier))
-        if 0 < rows.index(init_pos[0]) - 1 * multiplier < 8 and rows[rows.index(init_pos[0]) - 1 * multiplier] \
+        if -1 < rows.index(init_pos[0]) - 1 * multiplier < 8 and rows[rows.index(init_pos[0]) - 1 * multiplier] \
                 + str(int(init_pos[1]) + 1 * multiplier) in moves2.keys():
             possible_moves.append(rows[rows.index(init_pos[0]) - 1 * multiplier]
                                   + str(int(init_pos[1]) + 1 * multiplier))
@@ -151,7 +153,7 @@ def is_move_valid(player, init_pos, new_pos):
                 mult = 1
             else:
                 mult = -1
-            for i in range(oldY, newY,mult):
+            for i in range(oldY, newY, mult):
                 oldY += mult
                 if (init_pos[0] + str(oldY)) in moves1 or killed == 1:
                     return False
@@ -168,7 +170,7 @@ def is_move_valid(player, init_pos, new_pos):
                 mult = 1
             else:
                 mult = -1
-            for i in range(oldX, newX,mult):
+            for i in range(oldX, newX, mult):
                 oldX += mult
                 if (rows[oldX] + init_pos[1]) in moves1 or killed == 1:
                     return False
@@ -177,12 +179,31 @@ def is_move_valid(player, init_pos, new_pos):
                         killed = 1
                     else:
                         return False
-        return True
     elif piece[0] == "k":
-        return True
+        letter1 = rows.index(init_pos[0]) + 2 * multiplier
+        letter1_1 = rows.index(init_pos[0]) - 2 * multiplier
+        letter2 = rows.index(init_pos[0]) + 1 * multiplier
+        letter2_1 = rows.index(init_pos[0]) - 1 * multiplier
+        num1 = int(init_pos[1]) + 1 * multiplier
+        num1_1 = int(init_pos[1]) - 1 * multiplier
+        num2 = int(init_pos[1]) + 2 * multiplier
+        num2_1 = int(init_pos[1]) - 2 * multiplier
+        if 0 <= letter1 < 8 and rows[letter1] + str(num1) not in moves1:
+            possible_moves.append(rows[letter1] + str(num1))
+        if 0 <= letter1_1 < 8 and rows[letter1_1] + str(num1) not in moves1:
+            possible_moves.append(rows[letter1_1] + str(num1))
+        if 0 <= letter2 < 8 and rows[letter2] + str(num2) not in moves1:
+            possible_moves.append(rows[letter2] + str(num2))
+        if 0 <= letter2_1 < 8 and rows[letter2_1] + str(num2) not in moves1:
+            possible_moves.append(rows[letter2_1] + str(num2))
+        print(0 < letter2_1 < 8)
+        print(rows[letter2_1] + str(num2))
+        print(possible_moves)
+        if new_pos in possible_moves:
+            return True
     elif piece[0] == "K":
-        if rows.index(new_pos[0]) - rows.index(init_pos[0]) > 1 or rows.index(new_pos[0]) - rows.index(
-                init_pos[0]) < -1:
+        if rows.index(new_pos[0]) - rows.index(init_pos[0]) > 1 or \
+                rows.index(new_pos[0]) - rows.index(init_pos[0]) < -1:
             return False
         elif int(new_pos[1]) - int(init_pos[1]) > 1 or int(new_pos[1]) - int(init_pos[1]) < -1:
             return False
