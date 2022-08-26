@@ -225,7 +225,19 @@ def is_move_valid(player, init_pos, new_pos):
     elif piece[0] == "Q":
         return True
     elif piece[0] == "b":
-        return False
+        if abs(ord(new_pos[0]) - ord(init_pos[0])) != abs(new_pos[1] - init_pos[1]):
+            return False
+        else:
+            if ord(new_pos[0]) - ord(init_pos[0]) > 0 and new_pos[1] - init_pos[1] > 0:
+                diff = new_pos[1] - init_pos[1]
+                for i in range(diff):
+                    if 
+            elif ord(new_pos[0]) - ord(init_pos[0]) > 0 > new_pos[1] - init_pos[1]:
+                return True
+            elif ord(new_pos[0]) - ord(init_pos[0]) < 0 and new_pos[1] - init_pos[1] < 0:
+                return True
+            elif ord(new_pos[0]) - ord(init_pos[0]) < 0 < new_pos[1] - init_pos[1]:
+                return True
 
 
 whiteDict = {"a2": "p1", "b2": "p2", "c2": "p3", "d2": "p4", "e2": "p5", "f2": "p6", "g2": "p7", "h2": "p8", "a1": "r1",
