@@ -156,18 +156,19 @@ def is_move_valid(player, init_pos, new_pos):
         if new_pos in possible_moves:  # if new position corresponds to any possible position - it's valid
             return True
     elif piece[0] == "r":
-        if init_pos[0] != new_pos[0] and init_pos[1] != new_pos[1]:
+        if init_pos[0] != new_pos[0] and init_pos[1] != new_pos[1]:  # if move is not vertical or horizontal - not valid
             return False
-        if init_pos[0] == new_pos[0]:
-            oldY = int(init_pos[1])
-            newY = int(new_pos[1])
-            killed = 0
-            if newY > oldY:
+        if init_pos[0] == new_pos[0]:  # if vertical
+            oldY = int(init_pos[1])  # old position digit value
+            newY = int(new_pos[1])   # new position digit value
+            killed = 0  # to track down if something is killed
+            if newY > oldY:  # changing multiplier value depending on
                 mult = 1
             else:
                 mult = -1
             for i in range(oldY, newY, mult):
                 oldY += mult
+                # if ally piece on the way or piece killed on the way - invalid move
                 if (init_pos[0] + str(oldY)) in moves1 or killed == 1:
                     return False
                 elif (init_pos[0] + str(oldY)) in moves2:
@@ -175,7 +176,7 @@ def is_move_valid(player, init_pos, new_pos):
                         killed = 1
                     else:
                         return False
-        else:
+        else:  # if horizontal
             oldX = rows.index(init_pos[0])
             newX = rows.index(new_pos[0])
             killed = 0
