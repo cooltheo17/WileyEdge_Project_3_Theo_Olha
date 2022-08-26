@@ -103,8 +103,10 @@ def startGame():
                     break
                 else:
                     print("Move is invalid...")
-            print("\n================================\n")
-            player = 1 - player
+                print("\n================================\n")
+                if "K" not in list(combDict[1 - player].values()):
+                    return player + 1
+                player = 1 - player
         else:
             print("Invalid piece position!\nTry again.")
 
@@ -123,7 +125,7 @@ def is_move_valid(player, init_pos, new_pos):
     # check if new pos is out of bounds
     if new_pos == "" or new_pos[0] not in rows or int(new_pos[1]) not in cols or init_pos == new_pos:
         return False
-    piece = moves1[init_pos]  # get piece's  
+    piece = moves1[init_pos]  # get piece's
     possible_moves = []
     if piece[0] == "p":
         if init_pos[0] + str(int(init_pos[1]) + 1 * multiplier) not in moves2.keys() and \
@@ -333,4 +335,9 @@ print("\033[0;0m8. \033[1;30m◼")
 
 colour_1 = chooseColour("1")
 colour_2 = chooseColour("2")
-startGame()
+winner = startGame()
+if winner == 1:
+    winning_colour = colour_1
+else:
+    winning_colour = colour_2
+print(winning_colour + "Player "+str(winner)+" has won the game!")
