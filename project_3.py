@@ -32,7 +32,7 @@ def printBoard(whiteMoves, blackMoves, player):
                     print(colour_1 + " ♛ ", end="")
                 else:
                     print(colour_1 + " ♚ ", end="")
-            elif i + str(j) in blackMoves: # printing all player's 2 pieces
+            elif i + str(j) in blackMoves:  # printing all player's 2 pieces
                 piece = blackMoves.get(i + str(j))[0]
                 if piece == "p":
                     print(colour_2 + " ♟ ", end="")
@@ -89,6 +89,9 @@ def startGame():
     player = 0  # player val to swap turns
     promotionCount = 3
     combDict = [whiteDict, blackDict]  # player1 and player2 pieces
+    KingMove = [0, 0]
+    rook1Move = [0, 0]
+    rook2Move = [0, 0]
     while True:
         print(f"Player {player + 1} makes a move...")
         printBoard(combDict[0], combDict[1], player + 1)  # printing board
@@ -101,7 +104,33 @@ def startGame():
                 if newPos == "back":
                     player = 1 - player
                     break
-                if len(newPos) == 2 and is_move_valid(player + 1, oldPos, newPos):  # check if such move is valid
+                elif (newPos == "O-O" or newPos == "o-o") and checkSmallCastle(player) and KingMove[player] == 0 and \
+                        rook1Move[player] == 0:
+                    if player == 0:
+                        whiteDict.pop("e1")
+                        whiteDict.pop("h1")
+                        whiteDict["g1"] = "K"
+                        whiteDict["f1"] = "r2"
+                    else:
+                        blackDict.pop("e8")
+                        blackDict.pop("h8")
+                        blackDict["g8"] = "K"
+                        blackDict["f8"] = "r2"
+                    break
+                elif (newPos == "O-O-O" or newPos == "o-o-o") and checkBigCastle(player) and KingMove[player] == 0 and \
+                        rook2Move[player] == 0:
+                    if player == 0:
+                        whiteDict.pop("e1")
+                        whiteDict.pop("a1")
+                        whiteDict["c1"] = "K"
+                        whiteDict["d1"] = "r2"
+                    else:
+                        blackDict.pop("e8")
+                        blackDict.pop("a8")
+                        blackDict["c8"] = "K"
+                        blackDict["d8"] = "r2"
+                    break
+                elif len(newPos) == 2 and is_move_valid(player + 1, oldPos, newPos):  # check if such move is valid
                     if newPos in combDict[1 - player]:  # if player kills opponent's piece,
                         combDict[1 - player].pop(newPos)  # delete that piece for opponent
                     combDict[player][newPos] = combDict[player].pop(oldPos)  # place piece on new position
@@ -112,6 +141,12 @@ def startGame():
             if "K" not in list(combDict[1 - player].values()):
                 return player + 1
             # Check if any pawns have been promoted
+            if combDict[player].get(newPos) == "K":
+                KingMove[player] = 1
+            elif combDict[player].get(newPos) == "r1":
+                rook1Move[player] = 1
+            elif combDict[player].get(newPos) == "r2":
+                rook2Move[player] = 1
             for p in combDict[player]:
                 if p[1] == "8" or p[1] == "1":
                     if combDict[player].get(p)[0] == "p":
@@ -122,6 +157,66 @@ def startGame():
         else:
             print("Invalid piece position!\nTry again.")
 
+
+def checkSmallCastle(player):
+    rows = ["a", "b", "c", "d", "e", "f", "g", "h"]  # all board rows namings
+    if player == 0:
+        init_pos = "h1"
+        new_pos = "f1"
+        moves1 = whiteDict  # copy of current player pieces
+        moves2 = blackDict  # copy of opponent player pieces
+    else:
+        init_pos = "h8"
+        new_pos = "f8"
+        moves1 = blackDict
+        moves2 = whiteDict
+    oldX = rows.index(init_pos[0])
+    newX = rows.index(new_pos[0])
+    killed = 0
+    if newX > oldX:
+        mult = 1
+    else:
+        mult = -1
+    for i in range(oldX, newX, mult):
+        oldX += mult
+        if (rows[oldX] + init_pos[1]) in moves1 or killed == 1:
+            return False
+        elif (rows[oldX] + init_pos[1]) in moves2:
+            if killed == 0 and new_pos in moves2:
+                killed = 1
+            else:
+                return False
+    return True
+
+def checkBigCastle(player):
+    rows = ["a", "b", "c", "d", "e", "f", "g", "h"]  # all board rows namings
+    if player == 0:
+        init_pos = "a1"
+        new_pos = "d1"
+        moves1 = whiteDict  # copy of current player pieces
+        moves2 = blackDict  # copy of opponent player pieces
+    else:
+        init_pos = "a8"
+        new_pos = "d8"
+        moves1 = blackDict
+        moves2 = whiteDict
+    oldX = rows.index(init_pos[0])
+    newX = rows.index(new_pos[0])
+    killed = 0
+    if newX > oldX:
+        mult = 1
+    else:
+        mult = -1
+    for i in range(oldX, newX, mult):
+        oldX += mult
+        if (rows[oldX] + init_pos[1]) in moves1 or killed == 1:
+            return False
+        elif (rows[oldX] + init_pos[1]) in moves2:
+            if killed == 0 and new_pos in moves2:
+                killed = 1
+            else:
+                return False
+    return True
 
 def is_move_valid(player, init_pos, new_pos):
     rows = ["a", "b", "c", "d", "e", "f", "g", "h"]  # all board rows namings
@@ -168,7 +263,7 @@ def is_move_valid(player, init_pos, new_pos):
             return False
         if init_pos[0] == new_pos[0]:  # if vertical
             oldY = int(init_pos[1])  # old position digit value
-            newY = int(new_pos[1])   # new position digit value
+            newY = int(new_pos[1])  # new position digit value
             killed = 0  # to track down if something is killed
             if newY > oldY:  # changing multiplier value depending on
                 mult = 1
@@ -359,4 +454,4 @@ if winner == 1:
     winning_colour = colour_1
 else:
     winning_colour = colour_2
-print(winning_colour + "Player "+str(winner)+" has won the game!")
+print(winning_colour + "Player " + str(winner) + " has won the game!")
