@@ -96,8 +96,6 @@ def startGame():
             while True:
                 newPos = input("Please type the new position of the piece: ")
                 if is_move_valid(player + 1, oldPos, newPos):
-                    #if combDict[player][oldPos][0] == "":
-
                     if newPos in combDict[1 - player]:
                         combDict[1 - player].pop(newPos)
                     combDict[player][newPos] = combDict[player].pop(oldPos)
