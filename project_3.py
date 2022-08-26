@@ -87,7 +87,8 @@ def chooseColour(player):  # player can choose the figures color
 
 def startGame():
     player = 0  # player val to swap turns
-    combDict = [whiteDict, blackDict] # player1 and player2 pieces
+    promotionCount = 3
+    combDict = [whiteDict, blackDict]  # player1 and player2 pieces
     while True:
         print(f"Player {player + 1} makes a move...")
         printBoard(combDict[0], combDict[1], player + 1)  # printing board
@@ -96,7 +97,7 @@ def startGame():
         if oldPos in combDict[player]:  # check if there's a player's piece on that position (letter + digit)
             while True:
                 print("Type - back - to cancel.")
-                newPos = input("Please type the new position of the piece: ") # input new position (letter + digit)
+                newPos = input("Please type the new position of the piece: ")  # input new position (letter + digit)
                 if newPos == "back":
                     player = 1 - player
                     break
@@ -107,9 +108,16 @@ def startGame():
                     break
                 else:
                     print("Move is invalid...")
-                print("\n================================\n")
-                if "K" not in list(combDict[1 - player].values()):
-                    return player + 1
+            print("\n================================\n")
+            if "K" not in list(combDict[1 - player].values()):
+                return player + 1
+            # Check if any pawns have been promoted
+            for p in combDict[player]:
+                if p[1] == "8" or p[1] == "1":
+                    if combDict[player].get(p)[0] == "p":
+                        newPiece = input("What would you like to promote to (Q,b,r,k): ")
+                        combDict[player][p] = str(newPiece + str(promotionCount))
+                        promotionCount += 1
             player = 1 - player
         else:
             print("Invalid piece position!\nTry again.")
