@@ -1,24 +1,24 @@
 def printBoard(whiteMoves, blackMoves, player):
     global colour_1
-    if player == 1:
+    if player == 1:  # if player 1 - print in casual way
         rangeVal = range(8, -2, -1)
         rows = ["a", "b", "c", "d", "e", "f", "g", "h"]
-    else:
+    else:  # if player 2 - print reverse way
         rangeVal = range(-1, 9, 1)
         rows = ["h", "g", "f", "e", "d", "c", "b", "a"]
     for j in rangeVal:
         if j != 0 and j != -1:
-            print("\033[0;0m" + str(j) + " |", end="")
+            print("\033[0;0m" + str(j) + " |", end="")  # print frame vertically
         elif j == -1:
             print("   ", end="")
         elif j == 0:
-            print("\033[0;0m---", end="")
-        for i in rows:
+            print("\033[0;0m---", end="")  # print frame horizontally
+        for i in rows:  # printing rows
             if j == -1:
-                print(" " + i + " ", end="")
+                print(" " + i + " ", end="")  # printing board numeric values
             elif j == 0:
                 print("---", end="")
-            elif i + str(j) in whiteMoves:
+            elif i + str(j) in whiteMoves:  # printing all player's 1 pieces
                 piece = whiteMoves.get(i + str(j))[0]
                 if piece == "p":
                     print(colour_1 + " ♟ ", end="")
@@ -32,7 +32,7 @@ def printBoard(whiteMoves, blackMoves, player):
                     print(colour_1 + " ♛ ", end="")
                 else:
                     print(colour_1 + " ♚ ", end="")
-            elif i + str(j) in blackMoves:
+            elif i + str(j) in blackMoves: # printing all player's 2 pieces
                 piece = blackMoves.get(i + str(j))[0]
                 if piece == "p":
                     print(colour_2 + " ♟ ", end="")
@@ -46,7 +46,7 @@ def printBoard(whiteMoves, blackMoves, player):
                     print(colour_2 + " ♛ ", end="")
                 else:
                     print(colour_2 + " ♚ ", end="")
-            else:
+            else:  # printing empty board positions
                 if j % 2 != 0:
                     if i in "aceg":
                         print(colour_2 + " ◼ ", end="")
@@ -60,7 +60,7 @@ def printBoard(whiteMoves, blackMoves, player):
         print("")
 
 
-def chooseColour(player):
+def chooseColour(player):  # player can choose the figures color
     colour = ""
     while colour == "":
         colour_choice1 = input("\033[0;0mPlayer " + player + " - Choose your colour :")
@@ -223,6 +223,7 @@ def is_move_valid(player, init_pos, new_pos):
         if new_pos not in moves1:
             return True
     elif piece[0] == "Q":
+        # if same letter or same digit - execute rook code
         if init_pos[0] == new_pos[0] or init_pos[1] == new_pos[1]:
             if init_pos[0] == new_pos[0]:
                 oldY = int(init_pos[1])
@@ -258,6 +259,7 @@ def is_move_valid(player, init_pos, new_pos):
                             killed = 1
                         else:
                             return False
+        # if diagonally correct - execute bishop code
         elif abs(ord(new_pos[0]) - ord(init_pos[0])) == abs(int(new_pos[1]) - int(init_pos[1])):
             if abs(ord(new_pos[0]) - ord(init_pos[0])) != abs(int(new_pos[1]) - int(init_pos[1])):
                 return False
@@ -281,6 +283,7 @@ def is_move_valid(player, init_pos, new_pos):
                     elif init_pos in moves2 and init_pos != new_pos:
                         return False
                 return True
+        # if both false - illegal move
         else:
             return False
     elif piece[0] == "b":
