@@ -225,7 +225,66 @@ def is_move_valid(player, init_pos, new_pos):
         if new_pos not in moves1:
             return True
     elif piece[0] == "Q":
-        return True
+        if init_pos[0] == new_pos[0] or init_pos[1] == new_pos[1]:
+            if init_pos[0] == new_pos[0]:
+                oldY = int(init_pos[1])
+                newY = int(new_pos[1])
+                killed = 0
+                if newY > oldY:
+                    mult = 1
+                else:
+                    mult = -1
+                for i in range(oldY, newY, mult):
+                    oldY += mult
+                    if (init_pos[0] + str(oldY)) in moves1 or killed == 1:
+                        return False
+                    elif (init_pos[0] + str(oldY)) in moves2:
+                        if killed == 0 and new_pos in moves2:
+                            killed = 1
+                        else:
+                            return False
+            else:
+                oldX = rows.index(init_pos[0])
+                newX = rows.index(new_pos[0])
+                killed = 0
+                if newX > oldX:
+                    mult = 1
+                else:
+                    mult = -1
+                for i in range(oldX, newX, mult):
+                    oldX += mult
+                    if (rows[oldX] + init_pos[1]) in moves1 or killed == 1:
+                        return False
+                    elif (rows[oldX] + init_pos[1]) in moves2:
+                        if killed == 0 and new_pos in moves2:
+                            killed = 1
+                        else:
+                            return False
+        elif abs(ord(new_pos[0]) - ord(init_pos[0])) == abs(int(new_pos[1]) - int(init_pos[1])):
+            if abs(ord(new_pos[0]) - ord(init_pos[0])) != abs(int(new_pos[1]) - int(init_pos[1])):
+                return False
+            else:
+                if ord(new_pos[0]) - ord(init_pos[0]) > 0 and int(new_pos[1]) - int(init_pos[1]) > 0:
+                    i = 1
+                    j = 1
+                elif ord(new_pos[0]) - ord(init_pos[0]) > 0 > int(new_pos[1]) - int(init_pos[1]):
+                    i = 1
+                    j = -1
+                elif ord(new_pos[0]) - ord(init_pos[0]) < 0 and int(new_pos[1]) - int(init_pos[1]) < 0:
+                    i = -1
+                    j = -1
+                elif ord(new_pos[0]) - ord(init_pos[0]) < 0 < int(new_pos[1]) - int(init_pos[1]):
+                    i = -1
+                    j = 1
+                while init_pos != new_pos:
+                    init_pos = rows[rows.index(init_pos[0]) + i] + str(int(init_pos[1]) + j)
+                    if init_pos in moves1:
+                        return False
+                    elif init_pos in moves2 and init_pos != new_pos:
+                        return False
+                return True
+        else:
+            return False
     elif piece[0] == "b":
         if abs(ord(new_pos[0]) - ord(init_pos[0])) != abs(int(new_pos[1]) - int(init_pos[1])):
             return False
