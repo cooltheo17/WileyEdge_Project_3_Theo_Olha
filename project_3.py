@@ -231,10 +231,9 @@ def is_move_valid(player, init_pos, new_pos):
             if ord(new_pos[0]) - ord(init_pos[0]) > 0 and new_pos[1] - init_pos[1] > 0:
                 diff = new_pos[1] - init_pos[1]
                 for i in range(diff):
-                    if 
-                    if str(chr(ord(init_pos[0]) + i)) + str(init_pos[1] + i) in moves1:
+                    if str(chr(ord(init_pos[0]) + i)) + str(int(init_pos[1]) + i) in moves1:
                         return False
-                    elif str(chr(ord(init_pos[0]) + i)) + str(init_pos[1] + i) in moves2:
+                    elif str(chr(ord(init_pos[0]) + i)) + str(int(init_pos[1]) + i) in moves2:
                         return True
             elif ord(new_pos[0]) - ord(init_pos[0]) > 0 > new_pos[1] - init_pos[1]:
                 return True
