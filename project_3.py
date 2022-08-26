@@ -21,42 +21,42 @@ def printBoard(whiteMoves, blackMoves, player):
             elif i + str(j) in whiteMoves:  # printing all player's 1 pieces
                 piece = whiteMoves.get(i + str(j))[0]
                 if piece == "p":
-                    print(colour_1 + " ♟ ", end="")
+                    print(colour_1 + " ♟", end="")
                 elif piece == "r":
-                    print(colour_1 + " ♜ ", end="")
+                    print(colour_1 + " ♜", end="")
                 elif piece == "k":
-                    print(colour_1 + " ♞ ", end="")
+                    print(colour_1 + " ♞", end="")
                 elif piece == "b":
-                    print(colour_1 + " ♝ ", end="")
+                    print(colour_1 + " ♝", end="")
                 elif piece == "Q":
-                    print(colour_1 + " ♛ ", end="")
+                    print(colour_1 + " ♛", end="")
                 else:
-                    print(colour_1 + " ♚ ", end="")
+                    print(colour_1 + " ♚", end="")
             elif i + str(j) in blackMoves:  # printing all player's 2 pieces
                 piece = blackMoves.get(i + str(j))[0]
                 if piece == "p":
-                    print(colour_2 + " ♟ ", end="")
+                    print(colour_2 + " ♟", end="")
                 elif piece == "r":
-                    print(colour_2 + " ♜ ", end="")
+                    print(colour_2 + " ♜", end="")
                 elif piece == "k":
-                    print(colour_2 + " ♞ ", end="")
+                    print(colour_2 + " ♞", end="")
                 elif piece == "b":
-                    print(colour_2 + " ♝ ", end="")
+                    print(colour_2 + " ♝", end="")
                 elif piece == "Q":
-                    print(colour_2 + " ♛ ", end="")
+                    print(colour_2 + " ♛", end="")
                 else:
-                    print(colour_2 + " ♚ ", end="")
+                    print(colour_2 + " ♚", end="")
             else:  # printing empty board positions
                 if j % 2 != 0:
                     if i in "aceg":
-                        print(colour_2 + " ◼ ", end="")
+                        print(colour_2 + " ◼", end="")
                     else:
-                        print(colour_1 + " ◼ ", end="")
+                        print(colour_1 + " ◼", end="")
                 else:
                     if i in "bdfh":
-                        print(colour_2 + " ◼ ", end="")
+                        print(colour_2 + " ◼", end="")
                     else:
-                        print(colour_1 + " ◼ ", end="")
+                        print(colour_1 + " ◼", end="")
         print("")
 
 
@@ -140,13 +140,13 @@ def startGame():
             print("\n================================\n")
             if "K" not in list(combDict[1 - player].values()):
                 return player + 1
-            # Check if any pawns have been promoted
             if combDict[player].get(newPos) == "K":
                 KingMove[player] = 1
             elif combDict[player].get(newPos) == "r1":
                 rook1Move[player] = 1
             elif combDict[player].get(newPos) == "r2":
                 rook2Move[player] = 1
+            # Check if any pawns have been promoted
             for p in combDict[player]:
                 if p[1] == "8" or p[1] == "1":
                     if combDict[player].get(p)[0] == "p":
@@ -432,9 +432,9 @@ def is_move_valid(player, init_pos, new_pos):
                 return True
 
 
-whiteDict = {"a2": "p1", "b2": "p2", "c2": "p3", "d2": "p4", "e2": "p5", "f2": "p6", "g2": "p7", "h2": "p8", "a1": "r1",
+whiteDict = {"a2": "p1", "b2": "p2", "c2": "p3", "d2": "p4", "e2": "p5", "f2": "p6", "g2": "p7", "h7": "p8", "a1": "r1",
              "b1": "k1", "c1": "b1", "d1": "Q", "e1": "K", "f1": "b2", "g1": "k2", "h1": "r2"}
-blackDict = {"a7": "p1", "b7": "p2", "c7": "p3", "d7": "p4", "e7": "p5", "f7": "p6", "g7": "p7", "h7": "p8", "a8": "r1",
+blackDict = {"a7": "p1", "b7": "p2", "c7": "p3", "d7": "p4", "e7": "p5", "f7": "p6", "g7": "p7", "a8": "r1",
              "b8": "k1", "c8": "b1", "d8": "Q", "e8": "K", "f8": "b2", "g8": "k2", "h8": "r2"}
 player = 1
 
